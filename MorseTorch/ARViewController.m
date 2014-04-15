@@ -28,7 +28,20 @@
 
 - (IBAction)convertInputToMorse:(id)sender
 {
-    _morseText.text = [_inputText.text convertToMorseCode];
+    NSString *inputString = _inputText.text;
+    
+    const char *c = [inputString UTF8String];
+    
+    NSString *tempString = [NSString new];
+    NSString *tempMorseCode = [NSString new];
+    
+    for (int i=0; i < [inputString length]; i++) {
+        tempMorseCode = [[NSString stringWithFormat:@"%c",c[i]] convertToMorseCode];
+        tempString = [tempString stringByAppendingString:tempMorseCode];
+        tempString = [tempString stringByAppendingString:@"   "]; // Three spaces for space between two letters
+    }
+    _morseText.text = tempString;
+
 }
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField

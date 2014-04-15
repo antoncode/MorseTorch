@@ -14,57 +14,57 @@
 {
     NSString *convertedText = [NSString new];
     
-    if ([self.description isEqualToString:@"a"])
+    if ([self.description isEqualToString:@"a"] || [self.description isEqualToString:@"A"])
         convertedText = @". -";
-    else if ([self.description isEqualToString:@"b"])
+    else if ([self.description isEqualToString:@"b"] || [self.description isEqualToString:@"B"])
         convertedText = @"- . . .";
-    else if ([self.description isEqualToString:@"c"])
+    else if ([self.description isEqualToString:@"c"] || [self.description isEqualToString:@"C"])
         convertedText = @"- . - .";
-    else if ([self.description isEqualToString:@"d"])
+    else if ([self.description isEqualToString:@"d"] || [self.description isEqualToString:@"D"])
         convertedText = @"- . .";
-    else if ([self.description isEqualToString:@"e"])
+    else if ([self.description isEqualToString:@"e"] || [self.description isEqualToString:@"E"])
         convertedText = @".";
-    else if ([self.description isEqualToString:@"f"])
+    else if ([self.description isEqualToString:@"f"] || [self.description isEqualToString:@"F"])
         convertedText = @". . - .";
-    else if ([self.description isEqualToString:@"g"])
+    else if ([self.description isEqualToString:@"g"] || [self.description isEqualToString:@"G"])
         convertedText = @"- - .";
-    else if ([self.description isEqualToString:@"h"])
+    else if ([self.description isEqualToString:@"h"] || [self.description isEqualToString:@"H"])
         convertedText = @". . . .";
-    else if ([self.description isEqualToString:@"i"])
+    else if ([self.description isEqualToString:@"i"] || [self.description isEqualToString:@"I"])
         convertedText = @". .";
-    else if ([self.description isEqualToString:@"j"])
+    else if ([self.description isEqualToString:@"j"] || [self.description isEqualToString:@"J"])
         convertedText = @". - - -";
-    else if ([self.description isEqualToString:@"k"])
+    else if ([self.description isEqualToString:@"k"] || [self.description isEqualToString:@"K"])
         convertedText = @"- . - .";
-    else if ([self.description isEqualToString:@"l"])
+    else if ([self.description isEqualToString:@"l"] || [self.description isEqualToString:@"L"])
         convertedText = @". - . .";
-    else if ([self.description isEqualToString:@"m"])
+    else if ([self.description isEqualToString:@"m"] || [self.description isEqualToString:@"M"])
         convertedText = @"- -";
-    else if ([self.description isEqualToString:@"n"])
+    else if ([self.description isEqualToString:@"n"] || [self.description isEqualToString:@"N"])
         convertedText = @"- .";
-    else if ([self.description isEqualToString:@"o"])
+    else if ([self.description isEqualToString:@"o"] || [self.description isEqualToString:@"O"])
         convertedText = @"- - -";
-    else if ([self.description isEqualToString:@"p"])
+    else if ([self.description isEqualToString:@"p"] || [self.description isEqualToString:@"P"])
         convertedText = @". - - .";
-    else if ([self.description isEqualToString:@"q"])
+    else if ([self.description isEqualToString:@"q"] || [self.description isEqualToString:@"Q"])
         convertedText = @"- - . -";
-    else if ([self.description isEqualToString:@"r"])
+    else if ([self.description isEqualToString:@"r"] || [self.description isEqualToString:@"R"])
         convertedText = @". - .";
-    else if ([self.description isEqualToString:@"s"])
+    else if ([self.description isEqualToString:@"s"] || [self.description isEqualToString:@"S"])
         convertedText = @". . .";
-    else if ([self.description isEqualToString:@"t"])
+    else if ([self.description isEqualToString:@"t"] || [self.description isEqualToString:@"T"])
         convertedText = @"-";
-    else if ([self.description isEqualToString:@"u"])
+    else if ([self.description isEqualToString:@"u"] || [self.description isEqualToString:@"U"])
         convertedText = @". . -";
-    else if ([self.description isEqualToString:@"v"])
+    else if ([self.description isEqualToString:@"v"] || [self.description isEqualToString:@"V"])
         convertedText = @". . . -";
-    else if ([self.description isEqualToString:@"w"])
+    else if ([self.description isEqualToString:@"w"] || [self.description isEqualToString:@"W"])
         convertedText = @". - -";
-    else if ([self.description isEqualToString:@"x"])
+    else if ([self.description isEqualToString:@"x"] || [self.description isEqualToString:@"X"])
         convertedText = @"- . . -";
-    else if ([self.description isEqualToString:@"y"])
+    else if ([self.description isEqualToString:@"y"] || [self.description isEqualToString:@"Y"])
         convertedText = @"- . - -";
-    else if ([self.description isEqualToString:@"z"])
+    else if ([self.description isEqualToString:@"z"] || [self.description isEqualToString:@"Z"])
         convertedText = @"- - . .";
     else if ([self.description isEqualToString:@"1"])
         convertedText = @". - - - -";
@@ -86,6 +86,8 @@
         convertedText = @"- - - - .";
     else if ([self.description isEqualToString:@"0"])
         convertedText = @"- - - - -";
+    else if ([self.description isEqualToString:@" "])
+        convertedText = @"       ";
         
     return convertedText;
 }
