@@ -10,6 +10,22 @@
 
 @implementation NSString (NSStringDisplayMorseCode)
 
+- (NSString *)convertStringToMorseCode:(NSString *)string
+{
+    const char *c = [string UTF8String];
+    
+    NSString *tempString = [NSString new];
+    NSString *tempMorseCode = [NSString new];
+    
+    for (int i=0; i < string.length; i++) {
+        tempMorseCode = [[NSString stringWithFormat:@"%c",c[i]] convertToMorseCode];    // Get morse code for character at c[i]
+        tempString = [tempString stringByAppendingString:tempMorseCode];                // Append morse code to tempString
+        tempString = [tempString stringByAppendingString:@"   "];                       // Add three spaces for space between two letters
+    }
+    
+    return tempString;
+}
+
 - (NSString *)convertToMorseCode
 {
     NSString *convertedText = [NSString new];

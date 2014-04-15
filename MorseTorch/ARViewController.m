@@ -29,17 +29,10 @@
 - (IBAction)convertInputToMorse:(id)sender
 {
     NSString *inputString = _inputText.text;
-    
-    const char *c = [inputString UTF8String];
-    
     NSString *tempString = [NSString new];
-    NSString *tempMorseCode = [NSString new];
     
-    for (int i=0; i < [inputString length]; i++) {
-        tempMorseCode = [[NSString stringWithFormat:@"%c",c[i]] convertToMorseCode];
-        tempString = [tempString stringByAppendingString:tempMorseCode];
-        tempString = [tempString stringByAppendingString:@"   "]; // Three spaces for space between two letters
-    }
+    tempString = [inputString convertStringToMorseCode:inputString];
+
     _morseText.text = tempString;
 
 }

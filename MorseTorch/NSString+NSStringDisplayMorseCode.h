@@ -10,6 +10,7 @@
 
 @interface NSString (NSStringDisplayMorseCode)
 
+- (NSString *)convertStringToMorseCode:(NSString *)string;
 - (NSString *)convertToMorseCode;
 
 @end
