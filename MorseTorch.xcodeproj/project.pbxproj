@@ -22,6 +22,7 @@
 		3A3E9F3118FC64D30036FFC2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3A3E9F2F18FC64D30036FFC2 /* InfoPlist.strings */; };
 		3A3E9F3318FC64D30036FFC2 /* MorseTorchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3E9F3218FC64D30036FFC2 /* MorseTorchTests.m */; };
 		3A3E9F4418FC864E0036FFC2 /* NSString+NSStringDisplayMorseCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3E9F4318FC864E0036FFC2 /* NSString+NSStringDisplayMorseCode.m */; };
+		3A3E9FCA18FDC91E0036FFC2 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A3E9FC918FDC91E0036FFC2 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		3A3E9F3218FC64D30036FFC2 /* MorseTorchTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MorseTorchTests.m; sourceTree = "<group>"; };
 		3A3E9F4218FC864E0036FFC2 /* NSString+NSStringDisplayMorseCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+NSStringDisplayMorseCode.h"; sourceTree = "<group>"; };
 		3A3E9F4318FC864E0036FFC2 /* NSString+NSStringDisplayMorseCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+NSStringDisplayMorseCode.m"; sourceTree = "<group>"; };
+		3A3E9FC918FDC91E0036FFC2 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A3E9FCA18FDC91E0036FFC2 /* AVFoundation.framework in Frameworks */,
 				3A3E9F0A18FC64D30036FFC2 /* CoreGraphics.framework in Frameworks */,
 				3A3E9F0C18FC64D30036FFC2 /* UIKit.framework in Frameworks */,
 				3A3E9F0818FC64D30036FFC2 /* Foundation.framework in Frameworks */,
@@ -104,6 +107,7 @@
 		3A3E9F0618FC64D30036FFC2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3A3E9FC918FDC91E0036FFC2 /* AVFoundation.framework */,
 				3A3E9F0718FC64D30036FFC2 /* Foundation.framework */,
 				3A3E9F0918FC64D30036FFC2 /* CoreGraphics.framework */,
 				3A3E9F0B18FC64D30036FFC2 /* UIKit.framework */,
@@ -463,6 +467,7 @@
 				3A3E9F3818FC64D30036FFC2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3A3E9F3918FC64D30036FFC2 /* Build configuration list for PBXNativeTarget "MorseTorchTests" */ = {
 			isa = XCConfigurationList;
@@ -471,6 +476,7 @@
 				3A3E9F3B18FC64D30036FFC2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

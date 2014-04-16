@@ -8,11 +8,14 @@
 
 #import "ARViewController.h"
 #import "NSString+NSStringDisplayMorseCode.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface ARViewController () <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *morseText;
 @property (weak, nonatomic) IBOutlet UITextField *inputText;
+@property (nonatomic, weak) UIButton *convertButton;
+@property (weak, nonatomic) IBOutlet UILabel *charBeingSent;
 
 @end
 
@@ -28,13 +31,65 @@
 
 - (IBAction)convertInputToMorse:(id)sender
 {
+    _convertButton = sender;
+    _convertButton.enabled = NO;
+    
     NSString *inputString = _inputText.text;
     NSString *tempString = [NSString new];
     
     tempString = [inputString convertStringToMorseCode:inputString];
 
     _morseText.text = tempString;
+    
+    [self convertMorseCodeToFlashes:tempString];
+}
 
+- (void)convertMorseCodeToFlashes:(NSString *)morseCode
+{
+    NSLog(@"%@", morseCode);
+    
+    AVCaptureDevice *myDevice = [AVCaptureDevice defaultDeviceWithMediaType: AVMediaTypeVideo];
+    
+    NSOperationQueue *flashQueue = [NSOperationQueue new];
+    [flashQueue setMaxConcurrentOperationCount:1];
+
+    if ([myDevice hasTorch])
+    {
+        for (int i=0; i < morseCode.length; i++)
+        {
+            [flashQueue addOperationWithBlock:^{
+                if ([[NSString stringWithFormat:@"%c",[morseCode characterAtIndex:i]] isEqualToString:@"."])
+                {
+                    [myDevice lockForConfiguration:nil];
+                    [myDevice setTorchMode:AVCaptureTorchModeOn];
+                    [myDevice unlockForConfiguration];
+                    
+                    usleep(100000);
+                    
+                    [myDevice lockForConfiguration:nil];
+                    [myDevice setTorchMode:AVCaptureTorchModeOff];
+                    [myDevice unlockForConfiguration];
+                } else if ([[NSString stringWithFormat:@"%c",[morseCode characterAtIndex:i]] isEqualToString:@"-"]) {
+                    [myDevice lockForConfiguration:nil];
+                    [myDevice setTorchMode:AVCaptureTorchModeOn];
+                    [myDevice unlockForConfiguration];
+                    
+                    usleep(300000);
+                    
+                    [myDevice lockForConfiguration:nil];
+                    [myDevice setTorchMode:AVCaptureTorchModeOff];
+                    [myDevice unlockForConfiguration];
+                } else if ([[NSString stringWithFormat:@"%c",[morseCode characterAtIndex:i]] isEqualToString:@" "]) {
+                    usleep(100000);
+                }
+            }];
+        }
+    }
+    [flashQueue addOperationWithBlock:^{
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            _convertButton.enabled = YES;
+        }];
+    }];
 }
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField

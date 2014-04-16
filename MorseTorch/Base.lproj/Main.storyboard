@@ -16,15 +16,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="input" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9OX-ek-kwN">
-                                <rect key="frame" x="20" y="20" width="280" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="input" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9OX-ek-kwN">
+                                <rect key="frame" x="20" y="20" width="216" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="216" id="Zcb-hC-NKU"/>
+                                    <constraint firstAttribute="height" constant="30" id="caV-0u-AQl"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FdH-Ai-yz5">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FdH-Ai-yz5">
                                 <rect key="frame" x="100" y="58" width="120" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="fxW-Gw-Bg3"/>
+                                    <constraint firstAttribute="width" constant="120" id="syu-aW-L8G"/>
+                                </constraints>
                                 <state key="normal" title="Convert to Morse">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -32,17 +40,44 @@
                                     <action selector="convertInputToMorse:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="bvj-jg-l7N"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" borderStyle="line" placeholder="morse code" minimumFontSize="1" translatesAutoresizingMaskIntoConstraints="NO" id="ASj-nK-57h">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" borderStyle="line" placeholder="morse code" minimumFontSize="1" translatesAutoresizingMaskIntoConstraints="NO" id="ASj-nK-57h">
                                 <rect key="frame" x="20" y="96" width="280" height="194"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="194" id="Gkv-5u-IZB"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YKb-cP-j1P">
+                                <rect key="frame" x="244" y="21" width="56" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="0.43529412150000002" blue="0.81176471709999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="56" id="1Ao-jP-PfY"/>
+                                    <constraint firstAttribute="height" constant="29" id="LNY-oY-ul2"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="FdH-Ai-yz5" secondAttribute="centerX" id="0D5-15-ctC"/>
+                            <constraint firstAttribute="trailing" secondItem="ASj-nK-57h" secondAttribute="trailing" constant="20" id="9oC-LF-6cK"/>
+                            <constraint firstItem="YKb-cP-j1P" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="1" id="Uf8-if-2Go"/>
+                            <constraint firstAttribute="centerX" secondItem="9OX-ek-kwN" secondAttribute="centerX" constant="32" id="ZgT-xv-veL"/>
+                            <constraint firstItem="YKb-cP-j1P" firstAttribute="leading" secondItem="9OX-ek-kwN" secondAttribute="trailing" constant="8" id="aJ4-Bn-2bD"/>
+                            <constraint firstItem="9OX-ek-kwN" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="fDi-Qs-wMZ"/>
+                            <constraint firstItem="ASj-nK-57h" firstAttribute="top" secondItem="FdH-Ai-yz5" secondAttribute="bottom" constant="8" id="l3C-Xd-3Oc"/>
+                            <constraint firstItem="ASj-nK-57h" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" id="muJ-o6-OdK"/>
+                            <constraint firstItem="FdH-Ai-yz5" firstAttribute="top" secondItem="9OX-ek-kwN" secondAttribute="bottom" constant="8" id="pKz-4z-jV2"/>
+                        </constraints>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
+                        <outlet property="charBeingSent" destination="YKb-cP-j1P" id="nav-ui-15p"/>
                         <outlet property="inputText" destination="9OX-ek-kwN" id="04L-K8-hkB"/>
                         <outlet property="morseText" destination="ASj-nK-57h" id="cCr-iB-ceO"/>
                     </connections>
