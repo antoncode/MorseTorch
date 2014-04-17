@@ -20,7 +20,6 @@
             morseCodeString = [morseCodeString stringByAppendingString:@"   "];                       // Add three spaces for space between two characters
         charMorseCode = [[NSString stringWithFormat:@"%c",[stringToConvert characterAtIndex:i]] convertToMorseCode];    // Get morse code for character at stringToConvert[i]
         morseCodeString = [morseCodeString stringByAppendingString:charMorseCode];                // Append morse code to tempString
-
     }
     
     return morseCodeString;

@@ -5,7 +5,7 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>2BEEAA01-65A0-4E02-B5F4-0988B3B009CC</string>
+	<string>D96EBA5A-C94D-40F0-9138-608A346C11E4</string>
 	<key>IDESourceControlProjectName</key>
 	<string>MorseTorch</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
@@ -14,11 +14,11 @@
 		<string>ssh://github.com/guantonrivera/MorseTorch.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>MorseTorch.xcodeproj/project.xcworkspace</string>
+	<string>MorseTorch.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>59B1567F-0D72-476D-82FD-23B4F3D0B867</key>
-		<string>../..</string>
+		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>ssh://github.com/guantonrivera/MorseTorch.git</string>

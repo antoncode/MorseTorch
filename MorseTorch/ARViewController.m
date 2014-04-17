@@ -8,14 +8,16 @@
 
 #import "ARViewController.h"
 #import "NSString+NSStringDisplayMorseCode.h"
-#import <AVFoundation/AVFoundation.h>
+#import <ProgressHUD/ProgressHUD.h>
+#import "ARTorchController.h"
 
-@interface ARViewController () <UITextFieldDelegate>
+@interface ARViewController () <UITextFieldDelegate, ARTorchControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *morseText;
 @property (weak, nonatomic) IBOutlet UITextField *inputText;
-@property (nonatomic, weak) UIButton *convertButton;
+@property (nonatomic, strong) UIButton *convertButton;
 @property (weak, nonatomic) IBOutlet UILabel *charBeingSent;
+@property (nonatomic, strong) ARTorchController *torchController;
 
 @end
 
@@ -27,69 +29,49 @@
 
     _morseText.delegate = self;
     _inputText.delegate = self;
+    
+    _charBeingSent.text = @" ";
+    
+    _torchController = [ARTorchController new];
+    _torchController.delegate = self;
 }
 
 - (IBAction)convertInputToMorse:(id)sender
 {
-    _convertButton = sender;
-    _convertButton.enabled = NO;
-    
     NSString *inputString = _inputText.text;
-    NSString *tempString = [NSString new];
     
-    tempString = [inputString convertStringToMorseCode:inputString];
-
-    _morseText.text = tempString;
+    NSString *morseString = [NSString new];
+    morseString = [inputString convertStringToMorseCode:inputString];
+    _morseText.text = morseString;
     
-    [self convertMorseCodeToFlashes:tempString];
+    [_torchController convertStringToFlashes:inputString];
+    
+    _convertButton = sender;
+    [_convertButton setTitle:@"Cancel" forState:UIControlStateNormal];
+    [_convertButton addTarget:self action:@selector(cancelButton) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)convertMorseCodeToFlashes:(NSString *)morseCode
+- (void)displayNewLetter:(NSString *)newLetter
 {
-    NSLog(@"%@", morseCode);
-    
-    AVCaptureDevice *myDevice = [AVCaptureDevice defaultDeviceWithMediaType: AVMediaTypeVideo];
-    
-    NSOperationQueue *flashQueue = [NSOperationQueue new];
-    [flashQueue setMaxConcurrentOperationCount:1];
+    _charBeingSent.text = newLetter;
+    [ProgressHUD show:newLetter];
+}
 
-    if ([myDevice hasTorch])
-    {
-        for (int i=0; i < morseCode.length; i++)
-        {
-            [flashQueue addOperationWithBlock:^{
-                if ([[NSString stringWithFormat:@"%c",[morseCode characterAtIndex:i]] isEqualToString:@"."])
-                {
-                    [myDevice lockForConfiguration:nil];
-                    [myDevice setTorchMode:AVCaptureTorchModeOn];
-                    [myDevice unlockForConfiguration];
-                    
-                    usleep(100000);
-                    
-                    [myDevice lockForConfiguration:nil];
-                    [myDevice setTorchMode:AVCaptureTorchModeOff];
-                    [myDevice unlockForConfiguration];
-                } else if ([[NSString stringWithFormat:@"%c",[morseCode characterAtIndex:i]] isEqualToString:@"-"]) {
-                    [myDevice lockForConfiguration:nil];
-                    [myDevice setTorchMode:AVCaptureTorchModeOn];
-                    [myDevice unlockForConfiguration];
-                    
-                    usleep(300000);
-                    
-                    [myDevice lockForConfiguration:nil];
-                    [myDevice setTorchMode:AVCaptureTorchModeOff];
-                    [myDevice unlockForConfiguration];
-                } else if ([[NSString stringWithFormat:@"%c",[morseCode characterAtIndex:i]] isEqualToString:@" "]) {
-                    usleep(100000);
-                }
-            }];
-        }
-    }
-    [flashQueue addOperationWithBlock:^{
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            _convertButton.enabled = YES;
-        }];
-    }];
+- (void)finished
+{
+    [ProgressHUD dismiss];
+    [_convertButton setTitle:@"Convert to Morse" forState:UIControlStateNormal];
+    [_convertButton addTarget:self action:@selector(convertInputToMorse:) forControlEvents:UIControlEventTouchUpInside];
+    _charBeingSent.text = @" ";
+}
+
+- (void)cancelButton
+{
+    [_torchController cancel];
+    [ProgressHUD dismiss];
+    [_convertButton setTitle:@"Convert to Morse" forState:UIControlStateNormal];
+    [_convertButton addTarget:self action:@selector(convertInputToMorse:) forControlEvents:UIControlEventTouchUpInside];
+    _charBeingSent.text = @" ";
 }
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField
