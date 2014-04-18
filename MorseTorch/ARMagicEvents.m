@@ -1,48 +1,32 @@
+//
+//  ARMagicEvents.m
+//  MorseTorch
+//
+//  Created by Anton Rivera on 4/17/14.
+//  Copyright (c) 2014 Anton Hilario Rivera. All rights reserved.
+//
 
-//  CFMagicEvents.m
-//  Copyright (c) 2013 Cédric Floury
-//
-//  Permission is hereby granted, free of charge, to any person obtaining a copy
-//  of this software and associated documentation files (the "Software"), to deal
-//  in the Software without restriction, including without limitation the rights
-//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-//  copies of the Software, and to permit persons to whom the Software is
-//  furnished to do so, subject to the following conditions:
-//
-//  1. The above copyright notice and this permission notice shall be included
-//     in all copies or substantial portions of the Software.
-//
-//  2. This Software cannot be used to archive or collect data such as (but not
-//     limited to) that of events, news, experiences and activities, for the
-//     purpose of any concept relating to diary/journal keeping.
-//
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-//  THE SOFTWARE.
-
-
-#import "CFMagicEvents.h"
+#import "ARMagicEvents.h"
 #import <AVFoundation/AVFoundation.h>
-
+#import "ARReceiverViewController.h"
 
 #define NUMBER_OF_FRAME_PER_S 120
 #define BRIGHTNESS_THRESHOLD 90
 #define MIN_BRIGHTNESS_THRESHOLD 10
 
-@interface CFMagicEvents() <AVCaptureAudioDataOutputSampleBufferDelegate>
-{
-    AVCaptureSession *_captureSession;
-    int  _lastTotalBrightnessValue;
-    int _brightnessThreshold;
-    BOOL _started;
-}
+@interface ARMagicEvents() <AVCaptureAudioDataOutputSampleBufferDelegate>
+
+@property (nonatomic, strong) AVCaptureSession *captureSession;
+@property (nonatomic) int lastTotalBrightnessValue, brightnessThreshold;
+@property (nonatomic) BOOL started;
+@property (nonatomic, strong) AVCaptureDevice *captureDevice;
+@property (strong, nonatomic) AVCaptureDeviceInput *videoInput;
+@property (strong, nonatomic) AVCaptureVideoDataOutput *videoDataOutput;
+@property (nonatomic, strong) ARReceiverViewController *receiverViewController;
+
 @end
 
-@implementation CFMagicEvents
+@implementation ARMagicEvents
 
 #pragma mark - init
 
@@ -64,52 +48,70 @@
 
 - (void)initCapture
 {
-    NSError *error = nil;
+    // 1. Setup AVCaptureDevice
+    _captureDevice = [self searchForBackCameraIfAvailable];
     
-    AVCaptureDevice *captureDevice = [self searchForBackCameraIfAvailable];
-    AVCaptureDeviceInput *videoInput = [AVCaptureDeviceInput deviceInputWithDevice:captureDevice error:&error];
-    if ( ! videoInput)
+    // 2. Setup AVCaptureDeviceInput
+    NSError *error = nil;
+    _videoInput = [AVCaptureDeviceInput deviceInputWithDevice:_captureDevice error:&error];
+    if ( ! _videoInput)
     {
         NSLog(@"Could not get video input: %@", error);
         return;
     }
-
     
-    //  the capture session is where all of the inputs and outputs tie together.
-    
-    _captureSession = [[AVCaptureSession alloc] init];
-    
-    //  sessionPreset governs the quality of the capture. we don't need high-resolution images,
-    //  so we'll set the session preset to low quality.
-    
+    // 3. Setup AVCaptureSession
+    _captureSession = [AVCaptureSession new];
     _captureSession.sessionPreset = AVCaptureSessionPresetLow;
+
+    // 4. Add AVCaptureDeviceInput to AVCaptureSession
+    [_captureSession addInput:_videoInput];
     
-    [_captureSession addInput:videoInput];
+    // 5. Create an AVCAptureVideoPreviewLayer (hint: layerWithSession:)
+//    AVCaptureVideoPreviewLayer *previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:_captureSession];
     
-    //  create the thing which captures the output
-    AVCaptureVideoDataOutput *videoDataOutput = [[AVCaptureVideoDataOutput alloc] init];
+    // 6./7. Setup AVCAptureDeviceOutput, add to AVCaptureSession
+    _videoDataOutput = [AVCaptureVideoDataOutput new];
+    [_captureSession addOutput:_videoDataOutput];
     
-    //  pixel buffer format
+//    // 8. Add your preview layer to a layer of a view on your screen
+//    _receiverViewController = [ARReceiverViewController new];
+//    _receiverViewController.videoView = [[UIImageView alloc] initWithFrame:CGRectMake(40, 20, 240, 168)];
+//    CALayer *cameraLayer = _receiverViewController.videoView.layer;
+//    _receiverViewController.videoView.backgroundColor = [UIColor clearColor];
+//    [cameraLayer setMasksToBounds:YES];
+//    previewLayer = [[AVCaptureVideoPreviewLayer alloc]initWithSession:_captureSession];
+//    [previewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+//    [previewLayer setFrame:[cameraLayer bounds]];
+//    [cameraLayer addSublayer:previewLayer];
+
+    // Configure your output
+    dispatch_queue_t queue = dispatch_queue_create("myQueue", NULL);
+    [_videoDataOutput setSampleBufferDelegate:(id)self queue:queue];
+    
+    // Specify the pixel format; this is essentially a template
     NSDictionary *settings = [[NSDictionary alloc] initWithObjectsAndKeys:
                               [NSNumber numberWithUnsignedInt:kCVPixelFormatType_32BGRA],
                               kCVPixelBufferPixelFormatTypeKey, nil];
-    videoDataOutput.videoSettings = settings;
+    _videoDataOutput.videoSettings = settings;
     
-    AVCaptureConnection *conn = [videoDataOutput connectionWithMediaType:AVMediaTypeVideo];
+//    //configure device
+//    [_device lockForConfiguration:nil]; //lock device for configuration
+//    [_device setExposureMode:AVCaptureExposureModeLocked];
+//    [_device setActiveVideoMinFrameDuration:CMTimeMake(1, 10)]; //configure device framerate
+//    [_device unlockForConfiguration]; //unlock device for configuration
     
-    if (conn.isVideoMinFrameDurationSupported)
-        conn.videoMinFrameDuration = CMTimeMake(1, NUMBER_OF_FRAME_PER_S);
-    if (conn.isVideoMaxFrameDurationSupported)
-        conn.videoMaxFrameDuration = CMTimeMake(1, NUMBER_OF_FRAME_PER_S);
+//    AVCaptureConnection *conn = [_videoDataOutput connectionWithMediaType:AVMediaTypeVideo];
+//    if (conn.isVideoMinFrameDurationSupported)
+//        conn.videoMinFrameDuration = CMTimeMake(1, NUMBER_OF_FRAME_PER_S);
+//    if (conn.isVideoMaxFrameDurationSupported)
+//        conn.videoMaxFrameDuration = CMTimeMake(1, NUMBER_OF_FRAME_PER_S);
     
-    //  we need a serial queue for the video capture delegate callback
-    dispatch_queue_t queue = dispatch_queue_create("com.zuckerbreizh.cf", NULL);
-    
-    [videoDataOutput setSampleBufferDelegate:(id)self queue:queue];
-    [_captureSession addOutput:videoDataOutput];
-    
+    // 9. Start AVCaptureSession
     [_captureSession startRunning];
+    
     _started = YES;
+    
 }
 
 -(void)updateBrightnessThreshold:(int)pValue
@@ -138,9 +140,7 @@
 
 #pragma mark - Delegate
 
-- (void)captureOutput:(AVCaptureOutput *)captureOutput
-didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
-       fromConnection:(AVCaptureConnection *)connection
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection
 {
     CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
     if (CVPixelBufferLockBaseAddress(imageBuffer, 0) == kCVReturnSuccess)
@@ -169,8 +169,6 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
         
         if([self calculateLevelOfBrightness:totalBrightness]<_brightnessThreshold)
         {
-            
-            
             if([self calculateLevelOfBrightness:totalBrightness]>MIN_BRIGHTNESS_THRESHOLD)
             {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"onMagicEventDetected" object:nil];
@@ -179,13 +177,10 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
             {
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"onMagicEventNotDetected" object:nil];
             }
-            
             //NSLog(@"%d",[self calculateLevelOfBrightness:totalBrightness]);
-            
         }
         else{
             _lastTotalBrightnessValue = totalBrightness;
-
             [[NSNotificationCenter defaultCenter] postNotificationName:@"onMagicEventNotDetected" object:nil];
         }
     }
@@ -196,7 +191,8 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
     return (pCurrentBrightness*100) /_lastTotalBrightnessValue;
 }
 
-#pragma mark - Tools
+#pragma mark - Helper method
+
 - (AVCaptureDevice *)searchForBackCameraIfAvailable
 {
     //  look at all the video devices and get the first one that's on the front

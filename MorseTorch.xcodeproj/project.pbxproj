@@ -25,9 +25,7 @@
 		3A3E9F4418FC864E0036FFC2 /* NSString+NSStringDisplayMorseCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3E9F4318FC864E0036FFC2 /* NSString+NSStringDisplayMorseCode.m */; };
 		3A3E9FCA18FDC91E0036FFC2 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A3E9FC918FDC91E0036FFC2 /* AVFoundation.framework */; };
 		3A650DE41900764B0065EE18 /* ARReceiverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A650DE31900764B0065EE18 /* ARReceiverViewController.m */; };
-		3A650DE7190077130065EE18 /* lapin_640_720.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3A650DE5190077130065EE18 /* lapin_640_720.jpg */; };
-		3A650DE8190077130065EE18 /* chapeau_640_720.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3A650DE6190077130065EE18 /* chapeau_640_720.jpg */; };
-		3A650DEB190078710065EE18 /* CFMagicEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A650DEA190078710065EE18 /* CFMagicEvents.m */; };
+		3A650DEB190078710065EE18 /* ARMagicEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A650DEA190078710065EE18 /* ARMagicEvents.m */; };
 		3AEC550218FF3B04004C28A9 /* ARTorchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AEC550118FF3B04004C28A9 /* ARTorchController.m */; };
 /* End PBXBuildFile section */
 
@@ -66,10 +64,8 @@
 		3A3E9FC918FDC91E0036FFC2 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		3A650DE21900764B0065EE18 /* ARReceiverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARReceiverViewController.h; sourceTree = "<group>"; };
 		3A650DE31900764B0065EE18 /* ARReceiverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARReceiverViewController.m; sourceTree = "<group>"; };
-		3A650DE5190077130065EE18 /* lapin_640_720.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lapin_640_720.jpg; sourceTree = "<group>"; };
-		3A650DE6190077130065EE18 /* chapeau_640_720.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = chapeau_640_720.jpg; sourceTree = "<group>"; };
-		3A650DE9190078710065EE18 /* CFMagicEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CFMagicEvents.h; sourceTree = "<group>"; };
-		3A650DEA190078710065EE18 /* CFMagicEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CFMagicEvents.m; sourceTree = "<group>"; };
+		3A650DE9190078710065EE18 /* ARMagicEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARMagicEvents.h; sourceTree = "<group>"; };
+		3A650DEA190078710065EE18 /* ARMagicEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARMagicEvents.m; sourceTree = "<group>"; };
 		3AEC550018FF3B04004C28A9 /* ARTorchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARTorchController.h; sourceTree = "<group>"; };
 		3AEC550118FF3B04004C28A9 /* ARTorchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARTorchController.m; sourceTree = "<group>"; };
 		D2CD995434AE4716986B143C /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -138,7 +134,8 @@
 		3A3E9F0D18FC64D30036FFC2 /* MorseTorch */ = {
 			isa = PBXGroup;
 			children = (
-				3A650DEC190078780065EE18 /* CFMagicEvents */,
+				3A650DE9190078710065EE18 /* ARMagicEvents.h */,
+				3A650DEA190078710065EE18 /* ARMagicEvents.m */,
 				3A3E9F1618FC64D30036FFC2 /* ARAppDelegate.h */,
 				3A3E9F1718FC64D30036FFC2 /* ARAppDelegate.m */,
 				3A650DE21900764B0065EE18 /* ARReceiverViewController.h */,
@@ -159,8 +156,6 @@
 		3A3E9F0E18FC64D30036FFC2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				3A650DE5190077130065EE18 /* lapin_640_720.jpg */,
-				3A650DE6190077130065EE18 /* chapeau_640_720.jpg */,
 				3A3E9F0F18FC64D30036FFC2 /* MorseTorch-Info.plist */,
 				3A3E9F1018FC64D30036FFC2 /* InfoPlist.strings */,
 				3A3E9F1318FC64D30036FFC2 /* main.m */,
@@ -185,15 +180,6 @@
 				3A3E9F2F18FC64D30036FFC2 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		3A650DEC190078780065EE18 /* CFMagicEvents */ = {
-			isa = PBXGroup;
-			children = (
-				3A650DE9190078710065EE18 /* CFMagicEvents.h */,
-				3A650DEA190078710065EE18 /* CFMagicEvents.m */,
-			);
-			name = CFMagicEvents;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -279,9 +265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A3E9F2018FC64D30036FFC2 /* Images.xcassets in Resources */,
-				3A650DE7190077130065EE18 /* lapin_640_720.jpg in Resources */,
 				3A3E9F1218FC64D30036FFC2 /* InfoPlist.strings in Resources */,
-				3A650DE8190077130065EE18 /* chapeau_640_720.jpg in Resources */,
 				3A3E9F1B18FC64D30036FFC2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -340,7 +324,7 @@
 				3A3E9F1418FC64D30036FFC2 /* main.m in Sources */,
 				3A3E9F1E18FC64D30036FFC2 /* ARSenderViewController.m in Sources */,
 				3A3E9F1818FC64D30036FFC2 /* ARAppDelegate.m in Sources */,
-				3A650DEB190078710065EE18 /* CFMagicEvents.m in Sources */,
+				3A650DEB190078710065EE18 /* ARMagicEvents.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

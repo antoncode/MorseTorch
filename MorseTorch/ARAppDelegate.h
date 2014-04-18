@@ -14,7 +14,5 @@
 @interface ARAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-//@property (strong, nonatomic) ARReceiverViewController *viewController;
-//@property (strong, nonatomic) CFMagicEvents *cfMagicEvents;
 
 @end

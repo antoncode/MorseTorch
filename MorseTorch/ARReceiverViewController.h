@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CFMagicEvents.h"
+#import "ARMagicEvents.h"
 
 @interface ARReceiverViewController : UIViewController
 
-@property (strong, nonatomic) CFMagicEvents *cfMagicEvents;
+@property (weak, nonatomic) IBOutlet UIImageView *videoView;
+@property (strong, nonatomic) ARMagicEvents *cfMagicEvents;
 
 @end
