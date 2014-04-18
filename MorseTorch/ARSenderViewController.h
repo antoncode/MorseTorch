@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ARViewController : UIViewController
+@interface ARSenderViewController : UIViewController
 
 @end

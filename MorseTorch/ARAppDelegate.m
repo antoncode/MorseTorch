@@ -7,12 +7,27 @@
 //
 
 #import "ARAppDelegate.h"
+//#import "ARReceiverViewController.h"
+//#import "CFMagicEvents.h"
 
 @implementation ARAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+//    
+//    _cfMagicEvents  = [[CFMagicEvents alloc] init];
+//    
+//    //If you need tu customize brightness Threshold
+//    //[_cfMagicEvents updateBrightnessThreshold:YOUR VALUE BETWEEN 0-100];
+//    
+//    [_cfMagicEvents startCapture];
+//    
+//    ARReceiverViewController *cf = [[ARReceiverViewController alloc] init];
+//    
+//    //self.viewController = cf;
+//    self.window.rootViewController = self.viewController;
+    
     return YES;
 }
 							

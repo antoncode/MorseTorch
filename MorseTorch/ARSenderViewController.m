@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 Anton Hilario Rivera. All rights reserved.
 //
 
-#import "ARViewController.h"
+#import "ARSenderViewController.h"
 #import "NSString+NSStringDisplayMorseCode.h"
 #import <ProgressHUD/ProgressHUD.h>
 #import "ARTorchController.h"
 
-@interface ARViewController () <UITextFieldDelegate, ARTorchControllerDelegate>
+@interface ARSenderViewController () <UITextFieldDelegate, ARTorchControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *morseText;
 @property (weak, nonatomic) IBOutlet UITextField *inputText;
@@ -21,7 +21,7 @@
 
 @end
 
-@implementation ARViewController
+@implementation ARSenderViewController
 
 - (void)viewDidLoad
 {
