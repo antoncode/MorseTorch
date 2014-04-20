@@ -68,22 +68,22 @@
     [_captureSession addInput:_videoInput];
     
     // 5. Create an AVCAptureVideoPreviewLayer (hint: layerWithSession:)
-//    AVCaptureVideoPreviewLayer *previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:_captureSession];
+    AVCaptureVideoPreviewLayer *previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:_captureSession];
     
     // 6./7. Setup AVCAptureDeviceOutput, add to AVCaptureSession
     _videoDataOutput = [AVCaptureVideoDataOutput new];
     [_captureSession addOutput:_videoDataOutput];
     
-//    // 8. Add your preview layer to a layer of a view on your screen
-//    _receiverViewController = [ARReceiverViewController new];
-//    _receiverViewController.videoView = [[UIImageView alloc] initWithFrame:CGRectMake(40, 20, 240, 168)];
-//    CALayer *cameraLayer = _receiverViewController.videoView.layer;
-//    _receiverViewController.videoView.backgroundColor = [UIColor clearColor];
-//    [cameraLayer setMasksToBounds:YES];
-//    previewLayer = [[AVCaptureVideoPreviewLayer alloc]initWithSession:_captureSession];
-//    [previewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
-//    [previewLayer setFrame:[cameraLayer bounds]];
-//    [cameraLayer addSublayer:previewLayer];
+    // 8. Add your preview layer to a layer of a view on your screen
+    _receiverViewController = [ARReceiverViewController new];
+    _receiverViewController.videoView = [[UIImageView alloc] initWithFrame:CGRectMake(40, 20, 240, 168)];
+    CALayer *cameraLayer = _receiverViewController.videoView.layer;
+    _receiverViewController.videoView.backgroundColor = [UIColor clearColor];
+    [cameraLayer setMasksToBounds:YES];
+    previewLayer = [[AVCaptureVideoPreviewLayer alloc]initWithSession:_captureSession];
+    [previewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+    [previewLayer setFrame:[cameraLayer bounds]];
+    [cameraLayer addSublayer:previewLayer];
 
     // Configure your output
     dispatch_queue_t queue = dispatch_queue_create("myQueue", NULL);
@@ -96,10 +96,10 @@
     _videoDataOutput.videoSettings = settings;
     
 //    //configure device
-//    [_device lockForConfiguration:nil]; //lock device for configuration
-//    [_device setExposureMode:AVCaptureExposureModeLocked];
-//    [_device setActiveVideoMinFrameDuration:CMTimeMake(1, 10)]; //configure device framerate
-//    [_device unlockForConfiguration]; //unlock device for configuration
+//    [_captureDevice lockForConfiguration:nil]; //lock device for configuration
+//    [_captureDevice setExposureMode:AVCaptureExposureModeLocked];
+//    [_captureDevice setActiveVideoMinFrameDuration:CMTimeMake(1, 10)]; //configure device framerate
+//    [_captureDevice unlockForConfiguration]; //unlock device for configuration
     
 //    AVCaptureConnection *conn = [_videoDataOutput connectionWithMediaType:AVMediaTypeVideo];
 //    if (conn.isVideoMinFrameDurationSupported)
@@ -171,17 +171,17 @@
         {
             if([self calculateLevelOfBrightness:totalBrightness]>MIN_BRIGHTNESS_THRESHOLD)
             {
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"onMagicEventDetected" object:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"lightSourceDropped" object:nil];
             }
             else //Mobile phone is probably on a table (too dark - camera obturated)
             {
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"onMagicEventNotDetected" object:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"lightSourceIncreased" object:nil];
             }
             //NSLog(@"%d",[self calculateLevelOfBrightness:totalBrightness]);
         }
         else{
             _lastTotalBrightnessValue = totalBrightness;
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"onMagicEventNotDetected" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"lightSourceIncreased" object:nil];
         }
     }
 }

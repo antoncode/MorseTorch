@@ -80,7 +80,12 @@
                                      @"----."   :@"9",
                                      @"-----"   :@"0"};
     
-    return [morseDictionary objectForKey:morseToConvert];
+    if ([morseDictionary objectForKey:morseToConvert]) {
+        return [morseDictionary objectForKey:morseToConvert];
+    } else {
+        // That is not morse code
+        return @"";
+    }
 }
 
 @end
