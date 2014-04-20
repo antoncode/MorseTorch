@@ -32,7 +32,7 @@
     _imageView.backgroundColor = [UIColor blackColor];
     _greenBoxOn = NO;
     
-    _outputLabel.text = @"temp";
+    _outputLabel.text = @"";
     _morseReceived = @"";
     _stringOfChar = @"";
     
@@ -43,8 +43,8 @@
 {
     [super viewWillAppear:animated];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveLightSourceDropped:) name:@"lightSourceDropped" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveLightSourceIncreased:) name:@"lightSourceIncreased" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveLightSourceDrop:) name:@"lightSourceDrop" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveLightSourceIncrease:) name:@"lightSourceIncrease" object:nil];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -54,7 +54,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
--(void)receiveLightSourceDropped:(NSNotification *) notification
+-(void)receiveLightSourceDrop:(NSNotification *) notification
 {
     // Light source dropped
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -62,7 +62,7 @@
     });
 }
 
--(void)receiveLightSourceIncreased:(NSNotification *) notification
+-(void)receiveLightSourceIncrease:(NSNotification *) notification
 {
     // Light source increased
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -79,7 +79,7 @@
         _imageView.backgroundColor = [UIColor greenColor];
         _onTime = [NSDate date];
         lightOnInterval = [_onTime timeIntervalSinceDate:_offTime];
-//        NSLog(@"Light ON for %f seconds", lightOnInterval);
+        NSLog(@"Light on: %f", lightOnInterval);
         [self printMessage:lightOnInterval];
     }
 }
@@ -93,21 +93,24 @@
         _imageView.backgroundColor = [UIColor blackColor];
         _offTime = [NSDate date];
         lightOffInterval = [_offTime timeIntervalSinceDate:_onTime];
-//        NSLog(@"Light OFF for %f seconds", lightOffInterval);
+        NSLog(@"Light off: %f", lightOffInterval);
+
         [self printBlankSpace:lightOffInterval];
     }
 }
 
 - (void)printMessage:(CGFloat)lightOnInterval
 {
-    if (lightOnInterval < 0.06 ) {
+    if (lightOnInterval < 0.1 ) {
         NSLog(@"This is nothing");
-    } else if (lightOnInterval >= 0.06 && lightOnInterval < 0.26) {
+    } else if (lightOnInterval >= 0.1 && lightOnInterval < 0.3) {
         NSLog(@"This is a DOT");
         _morseReceived = [_morseReceived stringByAppendingString:@"."];
-    } else if (lightOnInterval >= 0.26) {
+    } else if (lightOnInterval >= 0.3 && lightOnInterval < 1.0) {
         NSLog(@"This is a DASH");
         _morseReceived = [_morseReceived stringByAppendingString:@"-"];
+    } else if (lightOnInterval >= 1.0) {
+        
     }
 }
 
@@ -115,17 +118,20 @@
 {
     NSString *charFromMorse = @"";
     
-    if (lightOffInterval < 0.06 ) {
+    if (lightOffInterval < 0.1 ) {
         NSLog(@"This is nothing");
-    } else if (lightOffInterval >= 0.06 && lightOffInterval < 0.46) {
+    } else if (lightOffInterval >= 0.1 && lightOffInterval < 0.5) {
         NSLog(@"Space between SYMBOLS");
         charFromMorse = [_morseReceived convertFromMorseCode:_morseReceived];
         _stringOfChar = [_stringOfChar stringByAppendingString:charFromMorse];
         _outputLabel.text = _stringOfChar;
-    } else if (lightOffInterval >= 0.46) {
+    } else if (lightOffInterval >= 0.5 && lightOffInterval < 1.0) {
         NSLog(@"Space between WORDS");
         _stringOfChar = [_stringOfChar stringByAppendingString:@" "];
         _outputLabel.text = _stringOfChar;
+    } else if (lightOffInterval >= 1.0) {
+        _outputLabel.text = @"";
+        _stringOfChar = @"";
     }
 }
 

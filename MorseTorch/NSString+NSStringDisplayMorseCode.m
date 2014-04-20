@@ -83,7 +83,7 @@
     if ([morseDictionary objectForKey:morseToConvert]) {
         return [morseDictionary objectForKey:morseToConvert];
     } else {
-        // That is not morse code
+        // Not morse code
         return @"";
     }
 }

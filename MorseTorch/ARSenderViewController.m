@@ -76,14 +76,12 @@
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField
 {
-    // Return dismisses keyboard
     [textField resignFirstResponder];
     return YES;
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    // dismiss keyboard when user taps anywhere on the screen
     [self.view endEditing:YES];
 }
 

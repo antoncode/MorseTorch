@@ -13,8 +13,8 @@
 
 @interface ARMagicEvents : NSObject
 
--(BOOL)startCapture;
--(BOOL)stopCapture;
--(void)updateBrightnessThreshold:(int)pValue;
+- (BOOL)startCapture;
+- (BOOL)stopCapture;
+- (void)updateBrightnessThreshold:(int)pValue;
 
 @end
