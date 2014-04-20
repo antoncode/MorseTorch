@@ -12,10 +12,11 @@
 
 @interface ARReceiverViewController ()
 
+@property (weak, nonatomic) IBOutlet UILabel *outputLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (nonatomic) BOOL greenBoxOn;
 @property (nonatomic, strong) NSDate *onTime, *offTime;
-@property (nonatomic, strong) NSString *messageReceived;
+@property (nonatomic, strong) NSString *morseReceived, *stringOfChar;
 
 @end
 
@@ -25,13 +26,15 @@
 {
     [super viewDidLoad];
     
-    _cfMagicEvents  = [[ARMagicEvents alloc] init];
-    [_cfMagicEvents startCapture];
+    _arMagicEvents  = [[ARMagicEvents alloc] init];
+    [_arMagicEvents startCapture];
     
     _imageView.backgroundColor = [UIColor blackColor];
     _greenBoxOn = NO;
     
-    _messageReceived = [NSString new];
+    _outputLabel.text = @"temp";
+    _morseReceived = @"";
+    _stringOfChar = @"";
     
     _offTime = [NSDate date];
 }
@@ -40,9 +43,8 @@
 {
     [super viewWillAppear:animated];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveOnMagicEventDetected:) name:@"onMagicEventDetected" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveOnMagicEventNotDetected:) name:@"onMagicEventNotDetected" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveLightSourceDropped:) name:@"lightSourceDropped" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveLightSourceIncreased:) name:@"lightSourceIncreased" object:nil];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -52,23 +54,23 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
--(void)receiveOnMagicEventDetected:(NSNotification *) notification
+-(void)receiveLightSourceDropped:(NSNotification *) notification
 {
-//    Light source dropped
+    // Light source dropped
     dispatch_async(dispatch_get_main_queue(), ^{
         [self lightNotDetected];
     });
 }
 
--(void)receiveOnMagicEventNotDetected:(NSNotification *) notification
+-(void)receiveLightSourceIncreased:(NSNotification *) notification
 {
-//    Light source went up
+    // Light source increased
     dispatch_async(dispatch_get_main_queue(), ^{
         [self lightDetected];
     });
 }
 
--(void) lightDetected
+-(void)lightDetected
 {
     CGFloat lightOnInterval = 0.0;
     if(!_greenBoxOn)
@@ -82,7 +84,7 @@
     }
 }
 
--(void) lightNotDetected
+-(void)lightNotDetected
 {
     CGFloat lightOffInterval = 0.0;
     if(_greenBoxOn)
@@ -102,23 +104,28 @@
         NSLog(@"This is nothing");
     } else if (lightOnInterval >= 0.06 && lightOnInterval < 0.26) {
         NSLog(@"This is a DOT");
-        _messageReceived = [_messageReceived stringByAppendingString:@"."];
+        _morseReceived = [_morseReceived stringByAppendingString:@"."];
     } else if (lightOnInterval >= 0.26) {
         NSLog(@"This is a DASH");
-        _messageReceived = [_messageReceived stringByAppendingString:@"-"];
+        _morseReceived = [_morseReceived stringByAppendingString:@"-"];
     }
 }
 
 - (void)printBlankSpace:(CGFloat)lightOffInterval
 {
+    NSString *charFromMorse = @"";
+    
     if (lightOffInterval < 0.06 ) {
         NSLog(@"This is nothing");
     } else if (lightOffInterval >= 0.06 && lightOffInterval < 0.46) {
         NSLog(@"Space between SYMBOLS");
-        _messageReceived = [_messageReceived stringByAppendingString:@"."];
+        charFromMorse = [_morseReceived convertFromMorseCode:_morseReceived];
+        _stringOfChar = [_stringOfChar stringByAppendingString:charFromMorse];
+        _outputLabel.text = _stringOfChar;
     } else if (lightOffInterval >= 0.46) {
         NSLog(@"Space between WORDS");
-        _messageReceived = [_messageReceived stringByAppendingString:@"-"];
+        _stringOfChar = [_stringOfChar stringByAppendingString:@" "];
+        _outputLabel.text = _stringOfChar;
     }
 }
 

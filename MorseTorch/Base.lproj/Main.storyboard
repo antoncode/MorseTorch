@@ -169,6 +169,7 @@
                     <tabBarItem key="tabBarItem" title="Receiver" id="TJv-Nf-YCt"/>
                     <connections>
                         <outlet property="imageView" destination="OVP-cA-or6" id="Dpj-Fj-tAg"/>
+                        <outlet property="outputLabel" destination="RYW-up-OZc" id="S9B-dA-PCH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2AV-AK-M3j" userLabel="First Responder" sceneMemberID="firstResponder"/>

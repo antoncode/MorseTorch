@@ -12,5 +12,6 @@
 
 - (NSString *)convertStringToMorseCode:(NSString *)stringToConvert;
 - (NSString *)convertToMorseCode;
+- (NSString *)convertFromMorseCode:(NSString *)morseToConvert;
 
 @end

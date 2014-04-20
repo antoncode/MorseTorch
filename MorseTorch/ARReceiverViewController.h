@@ -12,6 +12,6 @@
 @interface ARReceiverViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIImageView *videoView;
-@property (strong, nonatomic) ARMagicEvents *cfMagicEvents;
+@property (strong, nonatomic) ARMagicEvents *arMagicEvents;
 
 @end
